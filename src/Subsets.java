@@ -3,6 +3,8 @@ import java.util.*;
 /**
  * This program takes a user entered list of integers and prints all possible subsets of the list.
  * (INCOMPLETE)
+ * Some methods are pending additional implementation.
+ * See individual method javadoc for details.
  * 
  * @author Shayan
  *
@@ -11,16 +13,15 @@ public class Subsets {
 	
     public static void main(String[] args) {
     	
-    	ArrayList<Integer> list = new ArrayList<Integer>();
-    	
 		// initialize variables
 		boolean q = false;														// program state
 		boolean r = false;														// recursive/iterative mode
 		Scanner in = new Scanner(System.in);									// input scanner
 		String input;															// user input
 		
+    	ArrayList<Integer> list = new ArrayList<Integer>();						// list of integers
 		int n;																	// integer to add to the list
-		
+    	
 		// user input loop
 		do {
 			
@@ -29,7 +30,7 @@ public class Subsets {
 			System.out.println("Enter \"r\" to toggle between recursive and iterative mode");
 			System.out.println("Enter \"c\" to clear the list");
 			System.out.println("Enter \"q\" to quit: ");
-			System.out.println();												// print new line
+			System.out.println();
 			
 			input = in.nextLine();												// record user input
 			System.out.println();												// print new line
@@ -87,6 +88,9 @@ public class Subsets {
      * This method uses an iterative approach.
      * 
      * (INCOMPLETE)
+     * Currently only returns adjacent subsets.
+     * Pending implementation:
+     * 		-include nonadjacent subsets.
      * 
      * @param list the list of integers
      * 
@@ -94,29 +98,31 @@ public class Subsets {
      */
     public static ArrayList<ArrayList<Integer>> subsets(ArrayList<Integer> list) {
     	
-    	ArrayList<ArrayList<Integer>> matrix = new ArrayList<ArrayList<Integer>>();
-    	ArrayList<Integer> emptyRow = new ArrayList<Integer>();
-    	matrix.add(emptyRow);
+    	ArrayList<ArrayList<Integer>> matrix = new ArrayList<ArrayList<Integer>>();	// list of sublists
+    	ArrayList<Integer> emptySet = new ArrayList<Integer>();						// empty list
+    	matrix.add(emptySet);														// add empty list to matrix
     	
+    	// for the number of elements in the list
     	for(int j = 0; j < list.size(); j++) {
     		
-        	ArrayList<Integer> tempRow = new ArrayList<Integer>();
+        	ArrayList<Integer> subset = new ArrayList<Integer>();					// initialize new subset
         	
+        	// for the number of elements in the list
 			for(int i = j; i < list.size(); i++) {
 				
-				ArrayList<Integer> row1 = new ArrayList<Integer>();
+				ArrayList<Integer> set = new ArrayList<Integer>();					// initialize new set
 				
-				tempRow.add(list.get(i));
-				row1.addAll(tempRow);
-				matrix.add(row1);
+				subset.add(list.get(i));											// add integer in list index to subset
+				set.addAll(subset);													// add subset to set
+				matrix.add(set);													// add set to matrix
 				
-				System.out.println(row1);
+				System.out.println(subset);											// print subset
 				
 			}
 			
     	}
     	
-    	return matrix;
+    	return matrix;																// return matrix
     	
     }
 
