@@ -5,10 +5,6 @@ import java.util.*;
  * The user can toggle between recursive and iterative mode to print the subsets recursively or iteratively.
  * The user can also toggle between matrix and print mode to print a matrix of the subsets or print each subset seperately.
  * 
- * (INCOMPLETE)
- * Some methods are pending additional implementation and comments.
- * See individual method javadoc for details.
- * 
  * @author Shayan
  *
  */
