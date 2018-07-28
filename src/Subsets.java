@@ -114,84 +114,94 @@ public class Subsets {
      */
     public static void subsetsI(ArrayList<Integer> list) {
 
-    	ArrayList<ArrayList<Integer>> matrix = new ArrayList<ArrayList<Integer>>();
-    	ArrayList<ArrayList<Integer>> subsets;
-    	ArrayList<Integer> subset = new ArrayList<Integer>();
-    	matrix.add(subset);
-    	System.out.println(subset);
+    	ArrayList<ArrayList<Integer>> matrix = new ArrayList<ArrayList<Integer>>();	// matrix of subsets
+    	ArrayList<ArrayList<Integer>> subsets;										// set of subsets
+    	ArrayList<Integer> subset = new ArrayList<Integer>();						// subset
+    	matrix.add(subset);															// add empty subset to matrix
+    	System.out.println(subset);													// print empty subset
     	
+    	// for each element in list
     	for(Integer i : list) {
     		
-    		subsets = new ArrayList<ArrayList<Integer>>();
+    		subsets = new ArrayList<ArrayList<Integer>>();							// initialize new set of subsets
     		
+    		// for each subset in matrix
     		for(ArrayList<Integer> set : matrix) {
     			
-    			subset = new ArrayList<Integer>();
-    			subset.addAll(set);
-    			subset.add(i);
-    			subsets.add(subset);
+    			subset = new ArrayList<Integer>(set);								// initialize new subset with matrix element
+    			subset.add(i);														// add list element to subset
+    			subsets.add(subset);												// add subset to set of subsets
     			
-    			System.out.println(subset);
+    			System.out.println(subset);											// print subset
     			
     		}
     		
-    		matrix.addAll(subsets);
+    		matrix.addAll(subsets);													// add subsets to matrix
     		
     	}
     	
     }
     
     /**
-     * This method takes a list of integers and prints all possible subsets of the list.
+     * This method takes a list of integers and returns a matrix of all possible subsets of the list.
      * This method uses a recursive approach.
-     * This is the helper method which passes the list and initialized subset and index on to the primary method.
+     * This is the helper method which passes the list and initialized parameters on to the primary method.
+     * 
      * 
      * @param list the list of integers
      * 
+     * @return a matrix of all possible subsets
      */
     public static void subsetsR(ArrayList<Integer> list) {
     	
-    	ArrayList<Integer> subset = new ArrayList<Integer>(list);			// initialize new subset with list elements
-    	subsetsR(list, subset, list.size() - 1);							// submit list and subset to allSubsets
-    	
+    	ArrayList<ArrayList<Integer>> matrix = new ArrayList<ArrayList<Integer>>();	// list of subsets
+    	ArrayList<ArrayList<Integer>> subsets = new ArrayList<ArrayList<Integer>>();// set of subsets
+    	ArrayList<Integer> subset = new ArrayList<Integer>();						// empty subset
+    	matrix.add(subset);															// add empty subset to matrix
+    	System.out.println(subset);													// print empty subset
+    	subsetsR(list, subsets, matrix, 0, 0);										// recursively submit with initialized parameters and return
+    	    			
     }
-    
+
     /**
-     * This method takes a list of integers and prints all possible subsets of the list.
+     * This method takes a list of integers and returns a matrix of all possible subsets of the list.
      * This method uses a recursive approach.
-     * This is the primary method which receives the list and initialized subset and index from the helper method.
+     * This is the primary method which recieves the list and initialized subset and index from the helper method.
      * 
      * @param list the list of integers
-     * @param subset the most recent subset if the list
-     * @param i current index
+     * @param subsets the current set of subsets
+     * @param matrix the matrix of subsets
+     * @param i the current list index
+     * @param s the current matrix index
+     * 
+     * @return a matrix of all possible subsets
      */
-    public static void subsetsR(ArrayList<Integer> list, ArrayList<Integer> subset, int i) {
-    	
-    	// check if current index is equal to list size
-    	if(i < 0) {
+    public static void subsetsR(ArrayList<Integer> list, ArrayList<ArrayList<Integer>> subsets, ArrayList<ArrayList<Integer>> matrix, int i, int s) {
+
+    	// check if list index is valid
+    	if(i < list.size()) {
     		
-        	ArrayList<Integer> set = new ArrayList<Integer>();				// initialize new set
-        	
-        	// for each element in subset
-    		for(Integer n : subset) {
+    		// check if matrix index is valid
+    		if(s < matrix.size()) {
     			
-    			if(n != null) set.add(n);									// add all non-null elements to set
+    			ArrayList<Integer> subset = new ArrayList<Integer>(matrix.get(s));	// initialize new subset with current matrix index value
+    			subset.add(list.get(i));											// add current list index value to subset
+    			subsets.add(subset);												// add subset to set of subsets
+    			System.out.println(subset);											// print subset
+    	    	subsetsR(list, subsets, matrix, i, s + 1);							// increment matrix index and recursively submit with updated parameters
     			
-    		};
-    		
-    		System.out.println(set);										// print set
-    		
-    	} else {
-    		
-    		subset.set(i, null);											// set current index value to null
-    		subsetsR(list, subset, i - 1);									// recursively submit list, subset, and incremented index
-    		subset.set(i, list.get(i));										// set current index value to list index value
-    		subsetsR(list, subset, i - 1);									// recursively submit list, subset, and incremented index
+    		} else {
+
+        		matrix.addAll(subsets);												// add all subsets to matrix
+        		subsets = new ArrayList<ArrayList<Integer>>();						// initialize new subset
+    			subsetsR(list, subsets, matrix, i + 1, 0);							// increment list index and recursively submit with updated parameters
+        		
+    		}
     		
     	}
     	
     }
-
+    
     /**
      * This method takes a list of integers and returns a matrix of all possible subsets of the list.
      * This method uses an iterative approach.
@@ -201,26 +211,27 @@ public class Subsets {
      * @return a matrix of all possible subsets
      */
     public static ArrayList<ArrayList<Integer>> subsetsIM(ArrayList<Integer> list) {
-
-    	ArrayList<ArrayList<Integer>> matrix = new ArrayList<ArrayList<Integer>>();
-    	ArrayList<ArrayList<Integer>> subsets;
-    	ArrayList<Integer> subset = new ArrayList<Integer>();
-    	matrix.add(subset);
     	
+    	ArrayList<ArrayList<Integer>> matrix = new ArrayList<ArrayList<Integer>>();	// matrix of subsets
+    	ArrayList<ArrayList<Integer>> subsets;										// set of subsets
+    	ArrayList<Integer> subset = new ArrayList<Integer>();						// subset
+    	matrix.add(subset);															// add empty subset to matrix
+    	
+    	// for each element in list
     	for(Integer i : list) {
     		
-    		subsets = new ArrayList<ArrayList<Integer>>();
+    		subsets = new ArrayList<ArrayList<Integer>>();							// initialize new set of subsets
     		
+    		// for each element in matrix
     		for(ArrayList<Integer> set : matrix) {
     			
-    			subset = new ArrayList<Integer>();
-    			subset.addAll(set);
-    			subset.add(i);
-    			subsets.add(subset);
+    			subset = new ArrayList<Integer>(set);								// initialize new subset with matrix element
+    			subset.add(i);														// add list element
+    			subsets.add(subset);												// add subset to set of subsets
     			
     		}
     		
-    		matrix.addAll(subsets);
+    		matrix.addAll(subsets);													// add subsets to matrix
     		
     	}
     	
@@ -231,9 +242,8 @@ public class Subsets {
     /**
      * This method takes a list of integers and returns a matrix of all possible subsets of the list.
      * This method uses a recursive approach.
+     * This is the helper method which passes the list and initialized parameters on to the primary method.
      * 
-     * (INCOMPLETE)
-     * not started
      * 
      * @param list the list of integers
      * 
@@ -242,10 +252,51 @@ public class Subsets {
     public static ArrayList<ArrayList<Integer>> subsetsRM(ArrayList<Integer> list) {
     	
     	ArrayList<ArrayList<Integer>> matrix = new ArrayList<ArrayList<Integer>>();	// list of subsets
-    	ArrayList<Integer> emptySet = new ArrayList<Integer>();						// empty list
-    	matrix.add(emptySet);														// add empty list to matrix
+    	ArrayList<ArrayList<Integer>> subsets = new ArrayList<ArrayList<Integer>>();// set of subsets
+    	ArrayList<Integer> subset = new ArrayList<Integer>();						// empty subset
+    	matrix.add(subset);															// add empty subset to matrix
     	
-    	return matrix;
+    	return subsetsRM(list, subsets, matrix, 0, 0);								// recursively submit with initialized parameters and return
+    	    			
+    }
+
+    /**
+     * This method takes a list of integers and returns a matrix of all possible subsets of the list.
+     * This method uses a recursive approach.
+     * This is the primary method which recieves the list and initialized subset and index from the helper method.
+     * 
+     * @param list the list of integers
+     * @param subsets the current set of subsets
+     * @param matrix the matrix of subsets
+     * @param i the current list index
+     * @param s the current matrix index
+     * 
+     * @return a matrix of all possible subsets
+     */
+    public static ArrayList<ArrayList<Integer>> subsetsRM(ArrayList<Integer> list, ArrayList<ArrayList<Integer>> subsets, ArrayList<ArrayList<Integer>> matrix, int i, int s) {
+
+    	// check if list index is valid
+    	if(i < list.size()) {
+    		
+    		// check if matrix index is valid
+    		if(s < matrix.size()) {
+    			
+    			ArrayList<Integer> subset = new ArrayList<Integer>(matrix.get(s));	// initialize new subset with current matrix index value
+    			subset.add(list.get(i));											// add current list index value to subset
+    			subsets.add(subset);												// add subset to set of subsets
+    			matrix = subsetsRM(list, subsets, matrix, i, s + 1);				// increment matrix index and recursively submit with updated parameters
+    			  		
+    		} else {
+
+        		matrix.addAll(subsets);												// add all subsets to matrix
+        		subsets = new ArrayList<ArrayList<Integer>>();						// initialize new subset
+    			matrix = subsetsRM(list, subsets, matrix, i + 1, 0);				// increment list index and recursively submit with updated parameters
+        		    
+    		}
+    		
+    	}
+    	
+    	return matrix;																// return matrix
     	
     }
     
